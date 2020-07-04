@@ -84,9 +84,26 @@ def ingresar():
 @app.route('/historial')
 def historial():
     if 'nombre' in session:
-        return render_template('historico.html')
+        print("a 1111")
+        return render_template("historico.html")
     else:
-        return redirect(url_for('ingresar'))
+        return render_template("login.html")
+
+# @app.route('/buscar', methods=['GET','POST'])
+# def buscar():
+#     if (request.method == 'GET'):
+#         if 'nombre' in session:
+#             return render_template('index.html')
+#         else:
+#             return render_template('login.html')
+#     else:
+#         print("a 2222")
+#         desde = request.form['inicio']
+#         hasta = request.form['fin']
+#         print("desde",desde)
+#         print(hasta)
+#         histo = mysql.query_db("select * from historial where fecha =%s between =%s", [desde][hasta])
+#         return histo
 
 @app.route('/salir')
 def salir():
@@ -127,19 +144,6 @@ def upload():
         return result        
     return None  # GET
 
-# @app.route('/guardar', methods=['GET','POST'])
-# def guardar():
-#     if request.method =='POST':
-#         print('Paciente:::::::::')
-#         # idPaciente = request.form['idPaciente']
-#         resultado = request.form['prueba2']
-#         # print('Paciente::::::::::::::::.', idPaciente)
-#         print('Resultado:::::::::::::::::', resultado)
-#         # usuario = mysql.query_db("INSERT INTO 'historial'('idPaciente', 'resultado') VALUES ( =%s,=%s))", [idPaciente],[result])
-#         return resultado
-#     else:
-#         print('P..............')
-#         return redirect(url_for('busqueda'))
- 
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
