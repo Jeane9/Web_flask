@@ -23,6 +23,8 @@ from package import densenet_M
 from package import imagenet_utils_M
 # from keras.applications.imagenet_utils import preprocess_input, decode_predictions
 
+from datetime import datetime
+
 app = Flask(__name__)
 
 # Model saved with Keras model.save()
@@ -144,6 +146,21 @@ def upload():
         return result        
     return None  # GET
 
+@app.route('/guardar', methods = ['POST'])
+def guardar():
+    if request.method == 'POST':
+        idpaciente = request.form['idPaciente']
+        resultado = request.form['resultado']
+        observacion = request.form['obs']
+        now = datetime.now()
+        now.strftime('%Y-%m-%d')
+        # insertar = mysql.query_db("INSERT INTO historial(idpaciente,resultado,observacion,fecha) values (%s,%s,%s,%s)", (idpaciente,resultado,observacion,now.strftime('%Y-%m-%d')))
+        print('fecha: ',now.strftime('%Y-%m-%d'))
+        print(idpaciente)
+        print(resultado)
+        print(observacion)
+
+    return redirect(url_for('busqueda'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

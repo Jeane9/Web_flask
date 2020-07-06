@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Busqueda</title>
+    <title>Diagnostico</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" id="btn-imagenes">Imágenes<span class="sr-only">(current)</span></a>
+              <a class="nav-link" id="btn-imagenes">Diagnostico<span class="sr-only">(current)</span></a>
             </li>
 			<li class="nav-item">
                 <a class="nav-link" id="btn-historial">Historial<span class="sr-only">(current)</span></a>
@@ -39,12 +39,12 @@
         <div id="content" style="margin-top:1em">
             <h2 class="page-title">Predicción de  Pre Cáncer</h2>
             <br>
-            <div>
+            <!-- <div>
                     <form id="form_idPaciente" class="form-inline">
                     <input class="form-control mr-sm-3" type="text" placeholder="Añadir IdPaciente" name='idPaciente'>
                     <button class="btn btn-dark-success my-3 my-sm-0" type="submit" id='btn-paciente'>Añadir</button>
                     </form>         
-            </div>
+            </div> -->
             <br>
             <div class="row">
                 <div class="col-sm-3">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="container" >
-                    <form action ="/guardar" method="POST" >
+                    <form action ="/guardar" method="POST" class="form-inline">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -88,10 +88,11 @@
                             <tbody class="lista">
                                 <tr>
                                     <th>
-                                        <div class="nom"></div>
+                                        <input class="form-control mr-sm-3" type="text" placeholder="Ejemplo: 12345" name="idPaciente">
+                                        <!-- <div class="nom"></div>
                                         <h3 id="result_id">
                                         <span> </span>
-                                        </h3>
+                                        </h3> -->
                                     </th>
                                 </tr>
                             </tbody>
@@ -105,19 +106,41 @@
                             <tbody class="lista">
                                 <tr>
                                     <th>
-                                        <div class="loader" style="display:none;">
-                                        <div class="nom"></div>
+                                        <div id="diagnostic">
+                                            <div class="loader" style="display:none;"><div class="nom"></div></div>
+                                            <h3 id="result">
+                                            <span> </span>
+                                            </h3>
                                         </div>
-                                        <h3 id="result">
-                                        <span> </span>
-                                        </h3>
+                                        <input class="form-control mr-sm-3" type="hidden" name='resultado' id = "resultado">
                                     </th>
                                 </tr>
                             </tbody>
                         </table>
-                        <button class="btn btn-dark btn-lg item col-sm" id="btn-guardar">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Observación :</th>
+                            </tr>
+                            </thead>
+                            <tbody class="lista">
+                                <tr>
+                                    <th>
+                                        <input class="form-control mr-sm-3" type="text" placeholder="Comentario" name="obs">
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-dark btn-lg item col-sm" id="btn-guardar" onclick="sub()">
                           <i class="fas fa-save"></i>Guardar</button>
                     </form>
+                    <script type="text/javascript">
+                        //variables
+                            //submit
+                            function sub(){
+                                document.getElementById("resultado").value = (document.getElementById("diagnostic").textContent).trim();
+                            };
+                    </script>
                     </div>
                 </div>
             </div>
