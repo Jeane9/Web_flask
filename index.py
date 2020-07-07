@@ -93,12 +93,7 @@ def historial():
 
 # @app.route('/buscar', methods=['GET','POST'])
 # def buscar():
-#     if (request.method == 'GET'):
-#         if 'nombre' in session:
-#             return render_template('index.html')
-#         else:
-#             return render_template('login.html')
-#     else:
+#     if req
 #         print("a 2222")
 #         desde = request.form['inicio']
 #         hasta = request.form['fin']
@@ -154,7 +149,7 @@ def guardar():
         observacion = request.form['obs']
         now = datetime.now()
         now.strftime('%Y-%m-%d')
-        # insertar = mysql.query_db("INSERT INTO historial(idpaciente,resultado,observacion,fecha) values (%s,%s,%s,%s)", (idpaciente,resultado,observacion,now.strftime('%Y-%m-%d')))
+        insertar = mysql.query_db("INSERT INTO historial(idPaciente,resultado,observacion,fecha) values (%s,%s,%s,%s)", (idpaciente,resultado,observacion,now.strftime('%Y-%m-%d')))
         print('fecha: ',now.strftime('%Y-%m-%d'))
         print(idpaciente)
         print(resultado)
