@@ -54,6 +54,14 @@ def busqueda():
     else:
         return redirect( url_for('ingresar'))
 
+@app.route('/busqueda_adm')
+def busqueda_adm():
+    if 'nombre' in session:
+        # return render_template('historico_admi.html')
+        return redirect(url_for('historialUsers'))
+    else:
+        return redirect( url_for('ingresar'))
+
 @app.route('/ingresar', methods=['GET','POST'])
 def ingresar():
     if (request.method == 'GET'):
@@ -66,17 +74,21 @@ def ingresar():
         contrasena = request.form['pass']
         session['nombre'] = nombre
         hash_contrasena = genph(contrasena)
-        usuario = mysql.query_db("select nombre, contrasena from users where nombre =%s", [nombre])
-
+        usuario = mysql.query_db("select nombre, contrasena, rol from users where nombre =%s", [nombre])
+        print('usuario:', usuario)
         if (len(usuario) != 0):
             print(usuario)   #diccionario [{'nombre': 'admin', 'contrasena': 'admin'}]
             for row in usuario: 
                 username = row['nombre']
                 password = row['contrasena']
-                print(username, password)
+                rol = row['rol']
+                print(username, password, rol)
                 
             if (checkph(hash_contrasena, password)):
-                return redirect(url_for('busqueda', usr=username))
+                if rol =='Administrador':
+                    return redirect(url_for('busqueda_adm',usr=username))
+                else:
+                    return redirect(url_for('busqueda', usr=username))
             else:
                 # Flask("La contraseña es incorrecta", "alert-warning")
                 return render_template("login.html")
@@ -86,21 +98,100 @@ def ingresar():
 @app.route('/historial')
 def historial():
     if 'nombre' in session:
-        print("a 1111")
-        return render_template("historico.html")
+        data = mysql.query_db("SELECT * FROM historial")
+        return render_template('historico.html', pacientes= data)
     else:
         return render_template("login.html")
 
-# @app.route('/buscar', methods=['GET','POST'])
-# def buscar():
-#     if req
-#         print("a 2222")
-#         desde = request.form['inicio']
-#         hasta = request.form['fin']
-#         print("desde",desde)
-#         print(hasta)
-#         histo = mysql.query_db("select * from historial where fecha =%s between =%s", [desde][hasta])
-#         return histo
+@app.route('/historialUsers')
+def historialUsers():
+    if 'nombre' in session:
+        data = mysql.query_db("SELECT * FROM users")
+        return render_template('historico_admi.html', users= data)
+        #return render_template('created_user.html', users= data)
+    else:
+        return render_template("login.html")
+
+@app.route('/crear_usuario')
+def crear_usuario():
+    if 'nombre' in session:
+        return render_template('created_user.html')
+    else:
+        return redirect(url_for('historialUsers')) 
+
+@app.route('/created', methods = ['POST'])
+def createdUser():
+   if request.method == 'POST':
+        nombre = request.form['m_name']
+        apellido = request.form['m_lastname']
+        identi = request.form['m_identity']
+        rol = request.form['rol']
+        usuario = request.form['username']
+        contrasena = request.form['password']
+        insertar = mysql.query_db("INSERT INTO users(nombre,contrasena,rol,name_,lastname,id_medico) values (%s,%s,%s,%s,%s,%s)", (usuario,contrasena,rol,nombre,apellido,identi))
+        return redirect(url_for('historialUsers'))  
+
+@app.route('/editar/<string:id>')
+def editar(id):
+    #cur = mysql.connection.curso()
+    #cur.execute('CONSULTA select where id= {0}', format(id))
+    data = mysql.query_db("SELECT * FROM historial where historialId = %s", (id))
+    bandera = data[0]
+    return render_template('edit.html', contac = data[0])
+
+@app.route('/update/<string:id>', methods = ['POST'])
+def update(id):
+    if request.method == 'POST':
+        observacion = request.form['observacion']
+        goalestandar = request.form['goalstandar']
+        if (goalestandar == '0'):
+            print('Errado')
+            data = mysql.query_db("UPDATE historial set observacion = %s, goal_standar = %s WHERE historialId = %s", (observacion,'Errado',id))
+            return redirect(url_for('historial'))
+        if (goalestandar == '1'):
+            print('Confirmado')
+            data = mysql.query_db("UPDATE historial set observacion = %s, goal_standar = %s WHERE historialId = %s", (observacion,'Confirmado',id))
+            return redirect(url_for('historial'))
+        else:
+            print('Pendiente')
+            data = mysql.query_db("UPDATE historial set observacion = %s, goal_standar = %s WHERE historialId = %s", (observacion,'Pendiente',id))
+            return redirect(url_for('historial'))
+
+@app.route('/filtrar', methods = ['POST'])
+def filtrar():
+    inicio = request.form['inicio']
+    fin = request.form['fin']
+    paciente = request.form['paciente']
+    print(paciente)
+    if (paciente ==''):
+        if (inicio!='' and fin!=''):
+            data = mysql.query_db("SELECT * FROM historial WHERE  fecha >= %s AND fecha <= %s", (inicio,fin))
+            return render_template('historico.html', pacientes= data)
+        if (inicio!='' and fin ==''):
+            data = mysql.query_db("SELECT * FROM historial WHERE  fecha >= %s", (inicio))
+            return render_template('historico.html', pacientes= data)
+        if (inicio =='' and fin!=''):
+            data = mysql.query_db("SELECT * FROM historial WHERE fecha <= %s", (fin))
+            return render_template('historico.html', pacientes= data)
+        if (inicio =='' and fin==''):
+            return redirect(url_for('historial'))
+
+    if (paciente !=''):
+        if (inicio!='' and fin!=''):
+            data = mysql.query_db("SELECT * FROM historial WHERE  fecha >= %s AND fecha <= %s AND idPaciente = %s", (inicio,fin,paciente))
+            return render_template('historico.html', pacientes= data)
+        if (inicio!='' and fin ==''):
+            data = mysql.query_db("SELECT * FROM historial WHERE  fecha >= %s AND idPaciente = %s", (inicio,paciente))
+            return render_template('historico.html', pacientes= data)
+        if (inicio =='' and fin!=''):
+            data = mysql.query_db("SELECT * FROM historial WHERE fecha <= %s AND idPaciente = %s", (fin,paciente))
+            return render_template('historico.html', pacientes= data)
+        if (inicio =='' and fin==''):
+            print ('Entro aqui amiguito')
+            data = mysql.query_db("SELECT * FROM historial WHERE idPaciente = %s", (paciente))
+            return render_template('historico.html', pacientes= data)
+
+
 
 @app.route('/salir')
 def salir():
@@ -149,7 +240,7 @@ def guardar():
         observacion = request.form['obs']
         now = datetime.now()
         now.strftime('%Y-%m-%d')
-        insertar = mysql.query_db("INSERT INTO historial(idPaciente,resultado,observacion,fecha) values (%s,%s,%s,%s)", (idpaciente,resultado,observacion,now.strftime('%Y-%m-%d')))
+        insertar = mysql.query_db("INSERT INTO historial(idPaciente,resultado,observacion,fecha,goal_standar) values (%s,%s,%s,%s,%s)", (idpaciente,resultado,observacion,now.strftime('%Y-%m-%d'),'Pendiente'))
         print('fecha: ',now.strftime('%Y-%m-%d'))
         print(idpaciente)
         print(resultado)

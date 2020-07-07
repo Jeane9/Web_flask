@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-flaty.min.css">
+    <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/home.css?v=1.4"> 
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/css/main.css"> -->
+    <link rel="stylesheet" type="text/css" href="../static/css/historico.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" id="btn-imagenes"><h6>Diagnóstico</h6><span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="btn-historial"><h6>Historial</h6><span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-light btn-logout" id="btn-cerrar"><i class="fas fa-sign-out-alt"></i>Cerrar Sesión</button>
+  </nav>
+  <br>
+  <br>
+    <div class="container col-md-5">
+        <div class="container" id="historico">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>Historial de pacientes</h2>
+                
+                </div>
+            </div>
+            <br>
+        </div>
+              <div class="modal-content">
+        
+                <div class="modal-header">
+                  <h5 class="modal-title">Editar Información del Paciente</h5>
+                  <form action="/historial">
+                    <button type="submit" class="btn btn-primary">No Hacer Cambios</button>
+                  </form>
+                  </div>
+        
+                <form action="/update/{{contac.historialId}}" method="post">
+                  <div class="modal-body">
+                    <div class="cuerpo-modal">
+
+                      <div class="form-group">
+                        <label>Nº</label>
+                        <input type="text" name="internalid" class="form-control" rows="3" value="{{ contac.historialId }}" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label>ID Paciente</label>
+                        <input type="text" name="fecha" class="form-control" rows="3" value="{{ contac.idPaciente }}" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="text" name="idpaciente" class="form-control" rows="3" value="{{ contac.fecha }}" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label>Resultado</label>
+                        <input type="text" name="resultado" class="form-control" rows="3" value="{{ contac.resultado }}" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label>Observación</label>
+                        <input type="text" name="observacion" class="form-control" rows="3" value="{{ contac.observacion }}">
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>Goal Standar</label>
+                              <input type="text" name="resulgoalstandar" class="form-control" rows="3" value="{{ contac.goal_standar }}" readonly>
+                            </div>
+                          </div>   
+                            
+                          <div class="col-sm-6">
+                            <label>Goal Standar</label>
+                            <select name="goalstandar" class="form-control" required>
+                              <option value="2" selected></option>
+                              <option value="1">Confirmado</option>
+                              <option value="0">Errado</option>
+                            </select>
+                          </div>
+                          
+                        </div>   
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+</body>
+<footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- <script src="<?php echo base_url(); ?>assets/admin/js/historicoruta.js?v=<?php echo time(); ?>"></script> -->
+    <script src="../static/js/main_historico.js"></script>
+    <script src="../static/js/main.js"></script>
+</footer>
+</html>

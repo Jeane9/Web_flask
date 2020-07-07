@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Historial</title>
+    <title>Historial de Usuarios</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-flaty.min.css">
@@ -16,10 +16,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" id="btn-imagenes"><h6>Diagnóstico</h6><span class="sr-only">(current)</span></a>
+          <a class="nav-link" id="btn-historial_admin"><h6>Historial Usuarios</h6><span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="btn-historial"><h6>Historial</h6><span class="sr-only">(current)</span></a>
+            <a class="nav-link" id="btn-crear"><h6>Crear Nuevo Usuario</h6><span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
@@ -32,35 +32,10 @@
     <div class="container" id="historico">
     <div class="row">
       <div class="col-md-8">
-        <h2>Historial de pacientes</h2>
+        <h2>Historial de Usuarios</h2>
       </div>
     </div>
     <br>
-    <form action ="/filtrar" method="POST">
-      <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-              <div class="col-sm-3">
-                  <label><b>Desde</b></label>
-                  <input class="form-control" type="date" name="inicio" id="inicio">
-              </div>
-              <div class="col-sm-3">
-                  <label><b>Hasta</b></label>
-                  <input class="form-control" type="date" name="fin" id="fin">
-              </div>
-              <div class="col-sm-3">
-                <label><b>Paciente</b></label>
-                <input class="form-control" type="text" name="paciente" placeholder="ID Paciente" id="paciente">
-            </div>
-              <div class="col-md-3 form-group">
-                  <button type="submit" class="btn btn-danger  btn-buscar" style="margin-top:30px" id='btn-buscar'>Filtrar</button>
-              </div>
-            </div>
-          <br>
-        </div>
-      </div>
-    </form>
-    
           <div dir="ltr" class="row">
             <div class="col-md-12">
               <!-- <div class="col-md-12"> -->
@@ -72,27 +47,22 @@
                                     <input class="form-check-input todo" type="checkbox" value="">
                                   </div>
                               </th> -->
-                              <th>Historial</th>
-                              <th>Id. Paciente</th>
-                              <th>Fecha</th>
-                              <th>Resultado</th>
-                              <th>Observación</th>
-                              <th>Goal Standar</th>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Identificación</th>
+                              <th>Username</th>
+                              <th>Rol</th>
                               <th></th>
                               <!-- <th>Confirmado</th> -->
                           </thead>
                             <tbody class="lista">
-                              {% for paciente in pacientes %}
+                              {% for user in users %}
                               <tr>
-                                  <td style="text-align: center">{{ paciente.historialId }}</td>
-                                  <td>{{ paciente.idPaciente }}</td>
-                                  <td style="text-align: center">{{ paciente.fecha }}</td>
-                                  <td style="text-align: center">{{ paciente.resultado }}</td>
-                                  <td>{{ paciente.observacion }}</td>
-                                  <td style="text-align: center">{{ paciente.goal_standar }}</td>
-                                  <td>
-                                      <a href="/editar/{{paciente.historialId}}" class="btn btn-success btn-agregar">Editar</a>
-                                  </td>
+                                  <td style="text-align: center">{{ user.name_ }}</td>
+                                  <td style="text-align: center">{{ user.lastname }}</td>
+                                  <td style="text-align: center">{{ user.id_medico }}</td>
+                                  <td style="text-align: center">{{ user.nombre }}</td>
+                                  <td style="text-align: center">{{ user.rol }}</td>
                               </tr>
                               {% endfor %}
                             </tbody>

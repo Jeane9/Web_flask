@@ -49,7 +49,7 @@ $(document).ready(function () {
                 console.log('Success!');
             },
         });
-    });    
+    });
     $('#btn-cerrar').click(function(){
         window.location.href='/salir';
      });
@@ -63,4 +63,11 @@ $(document).ready(function () {
     $('#btn-guardar').click(function(){ 
         window.location.href='/guardar'
     });
+    $('#btn-crear').click(function(){
+        window.location.href='/crear_usuario'
+    });
+    $('#btn-historial_admin').click(function(){
+        window.location.href='/historialUsers'
+    });
+    
 });
